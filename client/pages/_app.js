@@ -1,13 +1,12 @@
-import Footer from '../src/components/Footer'
-import NavigationBar from '../src/components/Navbar'
+import Footer from '../components/Footer'
+import NavigationBar from '../components/Navbar'
 import '../styles/globals.css'
 import PropTypes from 'prop-types'
 
 function App({ Component, pageProps }) {
   return (
     <>
-      <NavigationBar />
-      <Component {...pageProps} />
+      <Component />
       <Footer />
     </>
   )
