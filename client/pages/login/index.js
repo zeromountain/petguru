@@ -14,12 +14,41 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  padding: 158px 0 86px;
+  background-color: #f8f8f8;
 
   .input {
-
+    width: 100%;
+    height: 37px;
+    padding-left: 30px;
+    font-size: 16px;
+    border: 0;
+    border-bottom: 0.5px solid #c9cdd3;
+    background-position: 0 60%;
+    background-repeat: no-repeat;
+    background-size: auto 24px;
+    box-sizing: border-box;
+    color: red;
+    line-height: 1;
+    letter-spacing: -0.4px;
+    vertical-align: middle;
+    outline: none;
+    background-color: transparent !important;
   }
 
-  .login_form{
+  label {
+    display: block;
+    font-size: 12px;
+    color: #8d95a0;
+    line-height: 1.17;
+    cursor: pointer;
+  }
+
+  .input + label {
+    margin-top: 18px;
+  }
+
+  .login_form {
     display: flex;
     flex-direction: column;
   }
@@ -39,9 +68,9 @@ const Container = styled.div`
 
   .social_btn {
     margin-bottom: 10px;
-    padding:16px;
+    padding: 16px;
   }
-`
+`;
 
 export default function Login() {
   const router = useRouter();
@@ -67,36 +96,40 @@ export default function Login() {
       email,
       password
     }
-    dispatch(loginUser(body))
-      .then(res => {
-        if (res.payload.loginSuccess) {
-          router.push('/home');
-        } else {
-          alert('로그인 할 수 없음');
-        }
-      })
+
+    axios.post('/user/login', )
+    // dispatch(loginUser(body))
+    //   .then(res => {
+    //     if (res.payload.loginSuccess) {
+    //       router.push('/home');
+    //     } else {
+    //       alert('로그인 할 수 없음');
+    //     }
+    //   })
   }
   
   return (
     <>
       <Head>
-        <title>펫그루 | Login</title>
+        <title>펫구루 | Login</title>
       </Head>
-      <h1>펫그루 로그인페이지입니다.</h1>
+      <h1>펫구루 로그인페이지입니다.</h1>
       <Container>
         <form className="login_form" onSubmit={onSubmitHandler}>
-          <label>Email</label>
+          <label for="email">Email</label>
           <input
             value={email}
+            name="email"
             type="email"
             placeholder="email"
             className="input"
             onChange={onChangeEmail}
           />
-          <label>Password</label>
+          <label for="password">Password</label>
           <input
             value={password}
             type="password"
+            name="password"
             placeholder="password"
             className="input"
             onChange={onChangePassword}

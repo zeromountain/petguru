@@ -1,57 +1,33 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('pet', {
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+module.exports = (sequelize, DataTypes) => {
+  const Pet = sequelize.define('Pet', {
+    // userId
+    petName: {
+      type: DataTypes.STRING(30),
+      allowNull: false
     },
-    user_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    type: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+    petType: {
+      type: DataTypes.STRING(30),
+      allowNull: false
     },
     sex: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING(30),
+      allowNull: false
     },
-    image_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
-    born_year: {
-      type: "YEAR",
-      allowNull: true
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updated_at: {
-      type: DataTypes.DATE,
+    imageUrl: {
+      type: DataTypes.STRING,
       allowNull: true
     }
   }, {
-    sequelize,
-    tableName: 'pet',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
+    charset: 'utf8',
+    collate: 'utf8_general_ci' //한글 저장
   });
-};
+  Pet.associate = (db) => {
+    db.Pet.belongsTo(db.User);
+    db.Pet.hasMany(db.Missing);
+  };
+  return Pet;
+}

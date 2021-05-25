@@ -1,69 +1,41 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('missing', {
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    user_id: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    pet_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    missing_location: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    missing_status: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    missing_latitude: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    missing_longitude: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
+module.exports = (sequelize, DataTypes) => {
+  const Missing = sequelize.define('Missing', {
+    // userId, petId,
     text: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    missingStatus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    missingLocation: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    latitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    longitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
       allowNull: true
     },
-    image_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    video_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updated_at: {
-      type: DataTypes.DATE,
+    videoUrl: {
+      type: DataTypes.STRING,
       allowNull: true
     }
   }, {
-    sequelize,
-    tableName: 'missing',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
+    charset: 'utf8',
+    collate: 'utf8_general_ci' //한글 저장
   });
-};
+  Missing.associate = (db) => {
+    db.Missing.belongsTo(db.User);
+    db.Missing.belongsTo(db.Pet);
+  };
+  return Missing;
+}

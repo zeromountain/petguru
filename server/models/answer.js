@@ -1,53 +1,25 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('answer', {
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
+module.exports = (sequelize, DataTypes) => {
+  const Answer = sequelize.define('Answer', {
+    // userId, questionId
     text: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
       allowNull: true
     },
-    image_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    video_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    question_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updated_at: {
-      type: DataTypes.DATE,
+    videoUrl: {
+      type: DataTypes.STRING,
       allowNull: true
     }
   }, {
-    sequelize,
-    tableName: 'answer',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
+    charset: 'utf8',
+    collate: 'utf8_general_ci' //한글 저장
   });
-};
+  Answer.associate = (db) => {
+    db.Answer.belongsTo(db.User);
+    db.Answer.belongsTo(db.Question);
+  };
+  return Answer;
+}

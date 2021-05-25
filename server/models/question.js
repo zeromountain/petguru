@@ -1,69 +1,29 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('question', {
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
+module.exports = (sequelize, DataTypes) => {
+  const Question = sequelize.define('Question', {
+    // userId, petId
     category: {
-      type: DataTypes.CHAR(1),
-      allowNull: true
-    },
-    pet_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+      type: DataTypes.STRING(30),
+      allowNull: false,
     },
     title: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    image_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    video_url: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     text: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    hashtag: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     like: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    }
   }, {
-    sequelize,
-    tableName: 'question',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
+    charset: 'utf8',
+    collate: 'utf8_general_ci' //한글 저장
   });
-};
+  Question.associate = (db) => {
+    db.Question.belongsTo(db.User);
+    db.Question.belongsTo(db.Pet);
+  };
+  return Question;
+}
