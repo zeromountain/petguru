@@ -1,8 +1,13 @@
 import Head from 'next/head'
+import { useCallback } from 'react';
 import NavigationBar from '../../components/Navbar'
 import '../../styles/Home.module.css'
 
 export default function Home() {
+  const onLogOut = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
   return (
     <>
       <Head>
@@ -34,8 +39,6 @@ export default function Home() {
             배너
           </div>
           <div>
-            <button>질문 하기</button>
-            <button>실종 신고</button>
           </div>
           <section>
             <h4>주간 인기 Q&A</h4>

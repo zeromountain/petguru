@@ -1,76 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../actions/user_actions';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 158px 0 86px;
-  background-color: #f8f8f8;
-
-  .input {
-    width: 100%;
-    height: 37px;
-    padding-left: 30px;
-    font-size: 16px;
-    border: 0;
-    border-bottom: 0.5px solid #c9cdd3;
-    background-position: 0 60%;
-    background-repeat: no-repeat;
-    background-size: auto 24px;
-    box-sizing: border-box;
-    color: red;
-    line-height: 1;
-    letter-spacing: -0.4px;
-    vertical-align: middle;
-    outline: none;
-    background-color: transparent !important;
-  }
-
-  label {
-    display: block;
-    font-size: 12px;
-    color: #8d95a0;
-    line-height: 1.17;
-    cursor: pointer;
-  }
-
-  .input + label {
-    margin-top: 18px;
-  }
-
-  .login_form {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .login_btn_container {
-    display: flex;
-  }
-
-  .login_btn {
-    flex: 1 1;
-    margin-bottom: 10px;
-    padding: 16px;
-    & + & {
-      margin: 5px;
-    }
-  }
-
-  .social_btn {
-    margin-bottom: 10px;
-    padding: 16px;
-  }
-`;
+import Container from '../../components/Container';
 
 export default function Login() {
   const router = useRouter();
@@ -79,15 +13,15 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  }
+  const onChangeEmail = useCallback((e) => {
+    setEmail(e.target.vale);
+  }, []);
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  }
+  const onChangePassword = useCallback((e) => {
+    setPassword(e.target.vale);
+  }, []);
 
-  const onSubmitHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // const
     console.log('email', email);
@@ -97,15 +31,14 @@ export default function Login() {
       password
     }
 
-    axios.post('/user/login', )
-    // dispatch(loginUser(body))
-    //   .then(res => {
-    //     if (res.payload.loginSuccess) {
-    //       router.push('/home');
-    //     } else {
-    //       alert('로그인 할 수 없음');
-    //     }
-    //   })
+    dispatch(loginUser(body))
+      .then(res => {
+        if (res.payload.loginSuccess) {
+          router.push('/home');
+        } else {
+          alert('로그인 할 수 없음');
+        }
+      })
   }
   
   return (
@@ -113,43 +46,68 @@ export default function Login() {
       <Head>
         <title>펫구루 | Login</title>
       </Head>
-      <h1>펫구루 로그인페이지입니다.</h1>
       <Container>
-        <form className="login_form" onSubmit={onSubmitHandler}>
-          <label for="email">Email</label>
-          <input
-            value={email}
-            name="email"
-            type="email"
-            placeholder="email"
-            className="input"
-            onChange={onChangeEmail}
-          />
-          <label for="password">Password</label>
-          <input
-            value={password}
-            type="password"
-            name="password"
-            placeholder="password"
-            className="input"
-            onChange={onChangePassword}
-          />
-          <br />
-          <div className="login_btn_container">
-            <button name="Login" className="login_btn">
-              Login
-            </button>
-            <button className="login_btn">
-              <Link href="/home">Guest Login</Link>
-            </button>
+        <div className="contentsBox">
+          <div className="login">
+            <p className="main-txt">
+              펫구루와 함께
+              <br />
+              모든 반려 생활 궁긍즘을 해결해요!
+            </p>
+            <p className="sub-txt">
+              펫구루에서 제공하는 서비스를 위해
+              <br />
+              로그인 해주세요.
+            </p>
+            <div className="user-input">
+              <form name="loginEmail" onSubmit={handleSubmit}>
+                <fieldset>
+                  <legend>사용자 정보 입력</legend>
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    name="userEmail"
+                    id="userEmail"
+                    className="user-email"
+                    onChange={onChangeEmail}
+                    required
+                  />
+                  <label htmlFor="userPassword">Password</label>
+                  <input
+                    type="password"
+                    name="userPassword"
+                    className="user-password"
+                    onChange={onChangePassword}
+                    required
+                  />
+                </fieldset>
+                <button type="submit" className="btn-login">
+                  로그인
+                </button>
+              </form>
+              <button type="button" className="btn-login">
+                Google 계정으로 로그인
+              </button>
+            </div>
+            <div className="find-info">
+              <Link href="/home">
+                <a>
+                  <button type="button" className="nonUser-login">
+                    비회원으로 로그인
+                  </button>
+                </a>
+              </Link>
+              <Link href="/register">
+                <a>
+                  <button type="button" className="btn-signup">
+                    이메일로 회원가입
+                  </button>
+                </a>
+              </Link>
+            </div>
+            <div className="introduce"></div>
           </div>
-          <button name="google" className="social_btn">
-            Continue with Google
-          </button>
-          <Link href="/register">
-            <a>아직 회원이 아니십니까?</a>
-          </Link>
-        </form>
+        </div>
       </Container>
     </>
   );

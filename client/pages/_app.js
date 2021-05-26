@@ -27,7 +27,7 @@ function App({ Component, pageProps }) {
       >
         <Component />
       </Provider>
-      <Footer />
+      <Footer/>
     </>
   );
 }

@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types'
+import { useCallback } from 'react';
 
-export default function NavigationBar({children}) {
+export default function NavigationBar({ children }) {
+  
+  const onLogOut = useCallback(() => {
+    console.log('로그아웃')
+  }, [])
   return (
     <>
       <div className="nav" style={{ marginTop: "30px", display: "flex" }}>
@@ -21,9 +26,9 @@ export default function NavigationBar({children}) {
           </Link>
         </div>
         <div style={{ marginLeft: "75%" }}>
-          <Link href="/">
-            <a>로그아웃</a>
-          </Link>
+          <button onClick={onLogOut} style={{
+            border: "none"
+            }}>Logout</button>
         </div>
         <div style={{ marginLeft: "1%" }}>
           <Link href="/mypage">
