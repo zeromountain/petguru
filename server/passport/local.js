@@ -6,7 +6,8 @@ const {User} = require('../models');
 module.exports = () => {
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password'
+    passwordField: 'password',
+    passReqToCallback : true
   }, async (email, password, done) => {
     try {
       const user = await User.findOne({
@@ -17,7 +18,7 @@ module.exports = () => {
       }
       const result = await bcrypt.compare(password, user.password);
       if (result) {
-        return done(null, user);
+        return done(null, user); // 성공하면 user 라우터 콜백으로 가서 패스포트 로그인 시도
       }
       return done(null, false, { reason: '비밀번호가 틀렸습니다.' });
     } catch(error) {
