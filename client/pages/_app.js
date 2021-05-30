@@ -11,7 +11,7 @@ const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,
   ReduxThunk,
 )(createStore);
-function App({ Component, pageProps }) {
+function App({ Component }) {
   const enhancers = compose(
     typeof window !== "undefined" && window.devToolsExtension
       ? window.devToolsExtension()
@@ -19,15 +19,10 @@ function App({ Component, pageProps }) {
   );
   return (
     <>
-      <Provider
-        store={createStoreWithMiddleware(
-          Reducer,
-          enhancers,
-        )}
-      >
+      <Provider store={createStoreWithMiddleware(Reducer, enhancers)}>
         <Component />
       </Provider>
-      <Footer/>
+      <Footer />
     </>
   );
 }
@@ -37,7 +32,6 @@ App.propTypes = {
 };
 
 export default App;
-
 /*
 페이지에 공통인 레이아웃을 작성합니다.
 페이지 전환시 레이아웃을 유지할 수 있습니다.,

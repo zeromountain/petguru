@@ -14,6 +14,7 @@ db.Question = require('./question')(sequelize, Sequelize);
 db.Thread = require('./thread')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 
+// console.log(db.User);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

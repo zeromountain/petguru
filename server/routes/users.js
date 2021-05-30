@@ -1,48 +1,91 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
 
 const router = express.Router();
 
-router.post('/login', passport.authenticate('local', {
-    badRequestMessage: '<div class="alert alert-danger">User account is not exist</div>',
-    failureFlash: true,
-    successFlash: true,
-    failureRedirect: '/user/login',
-    successRedirect: '/'
-}))
-// 로컬 로그인 전략 실행
-// router.post('/login', (req, res, next) => {
-//   // 미들웨어 확장
-//   passport.authenticate('local', (err, user, info) => { // 서버에러, 성공 객체, 정보
-//     if (err) { // 서버 에러가 있는 경우
-//       console.error(err);
-//       return next(err);
-//     }
-//     if (info) { // 로직 상 에러가 있는 경우 ??
-//       console.log(info)
-//       // return res.status(401).send(info.reason); // 401: 허가되지 않음
-//       return res.status(401).json({message: info});
-//     }
-//     return req.login(user, (loginErr) => {
-//       // 로그인 저장 시 세션 사용
-//       if (loginErr) { // passport 로그인 검증
-//         console.error(loginErr);
-//         return next(loginErr);
+// router.post('/login', async (req, res) => {
+
+//   // console.log(req.body);
+//     const body=req.body;
+//     let userInfo = await User.findOne({
+//       where: { 
+//         email: body.email,
 //       }
-//       const filteredUser = Object.assign({}, user.toJSON());
-//       // user 객체는 sequelize 객체이기 때문에 순수한 JSON으로 만들기 위해 user.toJSON()
-//       // user.toJSON() 하지 않으면 에러 발생
-//       // toJSON()을 붙여주는 이유는 서버로부터 전달받은 데이터를 변형하기 때문임.
-//       delete filteredUser.password; // 서버로부터 전달받은 데이터를 변형하지 않는다면
-//       return res.json(filteredUser); // toJSON()을 붙이지 않고 바로 응답하여도 무방
-//       // res.setHeadher('Cookie', 'asdkjfklasdjlkg') 보안의 위협을 최소화
-//       // return res.status(200).json(user);
-//     })
-//   })(req, res, next);
-// });
+//     });
+//     if(!userInfo){
+//       return res.status(401).json({data:null,message:'입력한 이메일 정보가 없습니다.'});
+//     } else {
+//       const result = await bcrypt.compare(userInfo.password, body.password);
+//       if (!result) {
+//         return res.status(401).json({data: null, message: '입력한 비밀번호가 다릅니다.'})// 비밀번호가 다를 경우
+//       }
+//       //JWT(access, refresh)토큰 생성후 응답
+//       const accesstoken=jwt.sign({
+//         id:userInfo.id,
+//         email:userInfo.email,
+//         username:userInfo.username,
+//         createdAt:userInfo.createdAt,
+//         updatedAt:userInfo.updatedAt,
+//         iat:Math.floor(Date.now() / 1000),
+//         exp:Math.floor(Date.now() / 1000) + (60 * 60*24)
+//       },process.env.ACCESS_SECRET);
+  
+//       const refreshtoken=jwt.sign({
+//         id:userInfo.id,
+//         email:userInfo.email,
+//         profile:userInfo.profile,
+//         username:userInfo.username,
+//         createdAt:userInfo.createdAt,
+//         updatedAt:userInfo.updatedAt,
+//         iat:Math.floor(Date.now() / 1000),
+//         exp:Math.floor(Date.now() / 1000) + (60 * 60*24*30)
+//       },process.env.REFRESH_SECRET);
+  
+//       res.cookie('refreshToken', refreshtoken, {
+//         secure: true,
+//         httpOnly: true,
+//         sameSite:'none',
+//       });
+//       res.status(200).json({
+//         loginSuccess: true,
+//         userinfo:{
+//           email:userInfo.email,
+//           username:userInfo.username
+//         },
+//         accessToken:accesstoken, 
+//         message:'login success'
+//       });
+//     }
+//   })
+
+// 로컬 로그인 전략 실행
+router.post('/login', (req, res, next) => {
+  // 미들웨어 확장
+  passport.authenticate('local', (err, user, info) => { // 서버에러, 성공 객체, 정보
+    if (err) { // 서버 에러가 있는 경우
+      // console.error(err);
+      return next(err);
+    }
+    if (info) { // 로직 상 에러가 있는 경우 ??
+      // console.log(info)
+      // return res.status(401).send(info.reason); // 401: 허가되지 않음
+      return res.status(401).json({message: info});
+    }
+    return req.login(user, (loginErr) => {
+      // 로그인 저장 시 세션 사용
+      if (loginErr) { // passport 로그인 검증
+        console.error(loginErr);
+        return next(loginErr);
+      }
+      // res.setHeadher('Cookie', 'asdkjfklasdjlkg') 보안의 위협을 최소화
+      return res.status(200).json({message: "success post login"});
+    })
+  })(req, res, next);
+});
 
 router.post('/register', async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -71,6 +114,7 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/logout', (req, res, next) => {
   req.logout();
+  console.log(req.session)
   req.session.destroy();
   res.json({ message: "로그아웃에 성공했습니다." });
 }

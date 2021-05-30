@@ -50,6 +50,7 @@ const Register = () => {
     dispatch(registerUser(body))
       .then(res => {
         if (res.payload.success) {
+          alert(res.payload.message);
           router.push('/login')
         } else {
           alert('회원가입에 실패했습니다.')
@@ -82,7 +83,7 @@ const Register = () => {
                   <label htmlFor="email">Name</label>
                   <input
                     type="text"
-                    name="userEmail"
+                    name={username}
                     id="userEmail"
                     className="user-email"
                     onChange={onChangeUsername}
@@ -90,7 +91,7 @@ const Register = () => {
                   <label htmlFor="email">Email</label>
                   <input
                     type="email"
-                    name="userEmail"
+                    name={email}
                     id="userEmail"
                     className="user-email"
                     onChange={onChangeEmail}
@@ -98,16 +99,16 @@ const Register = () => {
                   <label htmlFor="userPassword">Password</label>
                   <input
                     type="password"
-                    name="password"
+                    name={password}
                     className="user-password"
                     onChange={onChangePassword}
                   />
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <input
-                    type="confirmPassword"
-                    name="confirmPassword"
+                    type="password"
+                    name={confirmPassword}
                     className="user-password"
-                    onChage={onChangeConfrimPassword}
+                    onChange={onChangeConfrimPassword}
                   />
                 </fieldset>
                 <button type="submit" className="btn-login">

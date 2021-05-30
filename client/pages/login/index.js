@@ -14,19 +14,19 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.vale);
+    setEmail(e.target.value);
   }, []);
 
   const onChangePassword = useCallback((e) => {
-    setPassword(e.target.vale);
+    setPassword(e.target.value);
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const
-    console.log('email', email);
-    console.log('password', password);
-    const body = {
+
+    // console.log('email', email);
+    // console.log('password', password);
+    let body = {
       email,
       password
     }
@@ -34,6 +34,7 @@ export default function Login() {
     dispatch(loginUser(body))
       .then(res => {
         if (res.payload.loginSuccess) {
+          alert(res.payload.message);
           router.push('/home');
         } else {
           alert('로그인 할 수 없음');

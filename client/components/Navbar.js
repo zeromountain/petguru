@@ -6,7 +6,8 @@ export default function NavigationBar({ children }) {
   
   const onLogOut = useCallback(() => {
     console.log('로그아웃')
-  }, [])
+  }, []);
+  
   return (
     <>
       <div className="nav" style={{ marginTop: "30px", display: "flex" }}>

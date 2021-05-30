@@ -6,11 +6,10 @@ export default function LandingPage() {
   return (
     <>
       <Head>
-        <title>펫구루</title>
+        <title>펫구루 | Welcome</title>
       </Head>
-      <LandingNavigationBar>
+      <LandingNavigationBar />
         <h1>펫그루 랜딩페이지입니다.</h1>
-      </LandingNavigationBar>
     </>
   );
 }

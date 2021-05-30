@@ -43,5 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     db.User.hasMany(db.Missing);
     db.User.hasMany(db.MissingComment);
   };
+  console.log(User);
   return User;
 }

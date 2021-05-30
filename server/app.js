@@ -22,7 +22,7 @@ passportConfig();
 
   //미들웨어 실행 순서 : 위에서 아래로 왼쪽에서 오른쪽으로
 app.use(express.json()); // 프론트에서 json형식의 데이터를 보냈을때 데이터를 req.body에 넣어줌
-app.use(express.urlencoded({ extended: true })); //form submit 했을 때 데이터를 req.body에 넣어줌
+app.use(express.urlencoded({ extended: false })); //form submit 했을 때 데이터를 req.body에 넣어줌
 //************************ */
 // 로그인을 하면 브라우저랑 서버랑 같은 정보를 들고 있어야
 // 실제적인 정보 대신에 아무 의미 없는 쿠키를 브라우저에 보냄
