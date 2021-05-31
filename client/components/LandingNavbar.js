@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 
-const LandingNavigationBar = () => {
+const LandingNavigationBar = ({children}) => {
   
   return (
     <>
@@ -18,6 +18,7 @@ const LandingNavigationBar = () => {
         </div>
         <div style={{ marginLeft: "10px" }}>Ko/En</div>
       </div>
+      {children}
     </>
   );
 }

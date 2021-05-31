@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types'
 import { useCallback } from 'react';
-
+import { useRouter } from "next/router";
 export default function NavigationBar({ children }) {
+  const router = useRouter();
   
   const onLogOut = useCallback(() => {
-    console.log('로그아웃')
+    router.push('/');
   }, []);
   
   return (

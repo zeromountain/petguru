@@ -1,5 +1,3 @@
-import styles from '../../styles/Register.module.css';
-import Link from 'next/link';
 import Head from "next/head";
 import Container from '../../components/Container';
 import { useDispatch } from "react-redux";

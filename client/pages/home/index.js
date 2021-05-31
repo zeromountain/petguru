@@ -7,7 +7,6 @@ import "antd/dist/antd.css";
 
 export default function Home() {
   useEffect(() => {
-    const endpoint = `${}`
   }, [])
 
   return (
