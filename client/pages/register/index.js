@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../actions/user_actions";
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
+import AuthTemplate from "../../components/auth/AuthTemplate";
+import RegisterForm from "../../components/auth/RegisterForm";
 
 // 리덕스
 // 스토어=> 디스패치 => 액션 => 리듀서 => 스토어
@@ -61,62 +63,9 @@ const Register = () => {
       <Head>
         <title>펫구루|회원가입</title>
       </Head>
-      <Container>
-        <div className="contentsBox">
-          <div className="login">
-            <p className="main-txt">
-              안녕하세요!
-              <br />
-              전문가와 함께 하는 펫구루입니다.
-            </p>
-            <p className="sub-txt">
-              펫구루에서 제공하는 서비스를 위해
-              <br />
-              회원가입 해주세요.
-            </p>
-            <div className="user-input">
-              <form name="loginEmail" onSubmit={handleSubmit}>
-                <fieldset>
-                  <legend>사용자 정보 입력</legend>
-                  <label htmlFor="email">Name</label>
-                  <input
-                    type="text"
-                    name={username}
-                    id="userEmail"
-                    className="user-email"
-                    onChange={onChangeUsername}
-                  />
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    name={email}
-                    id="userEmail"
-                    className="user-email"
-                    onChange={onChangeEmail}
-                  />
-                  <label htmlFor="userPassword">Password</label>
-                  <input
-                    type="password"
-                    name={password}
-                    className="user-password"
-                    onChange={onChangePassword}
-                  />
-                  <label htmlFor="confirmPassword">Confirm Password</label>
-                  <input
-                    type="password"
-                    name={confirmPassword}
-                    className="user-password"
-                    onChange={onChangeConfrimPassword}
-                  />
-                </fieldset>
-                <button type="submit" className="btn-login">
-                  회원가입
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </Container>
+      <AuthTemplate>
+        <RegisterForm />
+      </AuthTemplate>
     </>
   ); 
 }

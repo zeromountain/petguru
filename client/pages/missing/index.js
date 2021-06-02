@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import NavigationBar from '../../components/Navbar';
 import CardList from '../../components/common/CardList';
+import LandingNavigationBar from '../../components/LandingNavbar';
 
 
 export default function MissingMain() {
@@ -18,7 +18,7 @@ export default function MissingMain() {
       <Head>
         <title>펫구루 | 실종신고</title>
       </Head>
-      <NavigationBar>
+      <LandingNavigationBar />
         <div
           style={{
             display: "flex",
@@ -31,7 +31,6 @@ export default function MissingMain() {
           <input type="text" placeholder="검색어를 입력하세요." style={{margin:"10px"}}/>
           <CardList />
         </div>
-      </NavigationBar>
     </>
   );
 }

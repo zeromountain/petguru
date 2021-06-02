@@ -1,25 +1,20 @@
 import { Provider } from "react-redux";
-import { applyMiddleware, createStore, compose } from "redux";
-import promiseMiddleware from "redux-promise";
-import ReduxThunk from "redux-thunk";
-import Reducer from "../reducers";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer, {rootSaga} from "../reducers";
 import Footer from "../components/Footer";
 import "../styles/globals.css";
 import PropTypes from "prop-types";
 
-const createStoreWithMiddleware = applyMiddleware(
-  promiseMiddleware,
-  ReduxThunk,
-)(createStore);
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+
+sagaMiddleware.run(rootSaga);
 function App({ Component }) {
-  const enhancers = compose(
-    typeof window !== "undefined" && window.devToolsExtension
-      ? window.devToolsExtension()
-      : (f) => f,
-  );
   return (
     <>
-      <Provider store={createStoreWithMiddleware(Reducer, enhancers)}>
+      <Provider store={store}>
         <Component />
       </Provider>
       <Footer />

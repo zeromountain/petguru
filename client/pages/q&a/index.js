@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import NavigationBar from "../../components/Navbar";
+import LandingNavigationBar from '../../components/LandingNavbar';
 
 export default function QuestionsMain() {
   return (
@@ -8,7 +8,7 @@ export default function QuestionsMain() {
       <Head>
         <title>펫구루 | Q&A</title>
       </Head>
-      <NavigationBar>
+      <LandingNavigationBar />
         <h1>펫그루 질문페이지 메인</h1>
         <div
           className="container"
@@ -148,7 +148,6 @@ export default function QuestionsMain() {
             </div>
           </section>
         </div>
-      </NavigationBar>
     </>
   );
 }

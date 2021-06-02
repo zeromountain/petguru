@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import { useCallback, useEffect } from 'react';
-import NavigationBar from '../../components/Navbar'
 import '../../styles/Home.module.css'
-import "antd/dist/antd.css";
+import LandingNavigationBar from '../../components/LandingNavbar';
 
 
 export default function Home() {
@@ -14,7 +13,7 @@ export default function Home() {
       <Head>
         <title>펫그루 | 홈</title>
       </Head>
-      <NavigationBar />
+      <LandingNavigationBar />
       <div
         className="container"
         style={{

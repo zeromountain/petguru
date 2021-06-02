@@ -8,7 +8,7 @@ export default function LandingPage() {
       <Head>
         <title>펫구루 | Welcome</title>
       </Head>
-      <LandingNavigationBar />
+      <LandingNavigationBar type="welcome"/>
         <h1>펫그루 랜딩페이지입니다.</h1>
     </>
   );

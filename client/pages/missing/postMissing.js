@@ -1,6 +1,8 @@
 import React from 'react'
 import PostForm from '../../components/common/PostForm'
 
+
+
 function postMissing() {
   return (
     <div>
